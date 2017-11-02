@@ -26,7 +26,7 @@ import subprocess
 import os
 import pwd
 import sys
-
+from exceptions import PostCheckException
 
 logger = logging.getLogger('checker')
 
@@ -87,6 +87,8 @@ class analyticServer:
         url = "%s/analyticserver/security/login" % (self.knox_url_context if self.knox_enable else '')
         response = self.__executeHttp("GET", url, headers)
         self.server_version = response.getheader("server-version")
+        if self.server_version is None:
+            raise PostCheckException("Can't login Analytic Server, please check username and password")
 
         logger.info("Login succeeded, AS version is : %s" % self.server_version)
         
