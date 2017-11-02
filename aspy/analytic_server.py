@@ -47,12 +47,12 @@ class analyticServer:
             self.https = httplib.HTTPSConnection(host, port)
         else:
             self.https = httplib.HTTPConnection(host, port)
-
+""""
         if urlcontext is not None:
             self.knox_enable = True
             self.knox_url_context = urlcontext if urlcontext.startswith('/') else '/' + urlcontext
             self.knox_url_context = self.knox_url_context if not self.knox_url_context.endswith('/') else self.knox_url_context[:-1]
-
+""""
     def __executeHttp(self, method, url, headers_in = None, body = None):
         logger.info("Execute : %s" % url)
         headers = {}
