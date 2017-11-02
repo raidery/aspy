@@ -26,7 +26,7 @@ import subprocess
 import os
 import pwd
 import sys
-from exceptions import PostCheckException
+#from exceptions import PostCheckException
 
 logger = logging.getLogger('checker')
 
