@@ -197,7 +197,7 @@ class as_pipeline(object):
 class analytic_server(object):
 
     def __init__(self, host, port, useSSL, user, password):
-        self.server = analyticServer(host,port, useSSL)
+        self.server = analyticServer(host,port, None, False)
         self.server.login(user,password)
 
     def run(self,pipeline,project="public"):
