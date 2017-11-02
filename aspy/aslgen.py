@@ -13,6 +13,7 @@ import re
 # sys.path.append(sys.path.append(os.path.join(os.path.dirname(__file__),"../../../../build/checker/lib")))
 
 #from analytic_server import analyticServer
+from aspy.analytic_server import analyticServer
 
 class as_datamodel(object):
 
