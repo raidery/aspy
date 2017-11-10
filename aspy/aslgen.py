@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 # python client for ASL
 # asl generator and pipeline
 # prototype and demo
@@ -8,12 +11,14 @@ import os
 import xml.dom.minidom
 import StringIO
 import re
+import logging
 
 # locate analyic_server from the build/checker library
 # sys.path.append(sys.path.append(os.path.join(os.path.dirname(__file__),"../../../../build/checker/lib")))
 
 from analytic_server import analyticServer
 from aspy.analytic_server import analyticServer
+logger = logging.getLogger('aspy')
 
 class as_datamodel(object):
 
@@ -67,7 +72,7 @@ class as_resultset(object):
             self.row += 1
             return result
 
-    def getBatch(self):   
+    def getBatch(self):
         self.batchdata = json.loads(self.server.get_datasource_records(self.dsname,self.row,self.batchsize))
 
     def close(self):
@@ -87,8 +92,12 @@ class as_resultset(object):
             dd[header] = column
         return pd.DataFrame(dd)
 
+class model_node(object):
+    def __init__(self):
+        pass
+
 class as_pipeline(object):
-       
+
     def __init__(self,server):
         self.server = server
         self.ops = []
@@ -102,7 +111,7 @@ class as_pipeline(object):
             return "read(%s)"%(json.dumps({"dataSource":self.ds}))
 
     class as_aggregate(object):
-        
+
         def __init__(self,keys,functions):
             self.keys = keys
             self.functions = functions
@@ -143,6 +152,37 @@ class as_pipeline(object):
         def to_asl(self):
             return "deriveField(_,ctx => %s => (\"%s\",%s))"%(self.varname,self.name,self.body)
 
+    class as_tree(model_node):
+
+        def __init__(self,teConf,outCon):
+            self.teConf = teConf
+            self.outCon = outCon
+
+        def to_asl(self):
+            #asl = "cf_tree:tree(%s,_,%s))"%(self.teConf,self.outCon)
+            asl = "cf_tree:tree(%s,_,%s)"%(json.dumps(self.teConf),json.dumps(self.outCon))
+            return asl
+
+    class as_linear(model_node):
+
+        def __init__(self,teConf,outCon):
+            self.teConf = teConf
+            self.outCon = outCon
+
+        def to_asl(self):
+            asl = "cf_alm:linreg(%s,_,%s)"%(json.dumps(self.teConf),json.dumps(self.outCon))
+            return asl
+
+    class as_scoring(object):
+
+        def __init__(self,scoreConf,inputConf):
+            self.scoreConf = scoreConf
+            self.inputConf = inputConf
+
+        def to_asl(self):
+            asl = "cf_scoring:scoring(%s,%s,_)"%(json.dumps(self.scoreConf),json.dumps(self.inputConf))
+            return asl
+
     class as_datasource_write(object):
 
         def __init__(self,datasource,mode):
@@ -168,6 +208,18 @@ class as_pipeline(object):
         self.ops.append(as_pipeline.as_derive(name,expr))
         return self
 
+    def tree(self,scoreConf,inputConf):
+        self.ops.append(as_pipeline.as_tree(scoreConf,inputConf))
+        return self
+
+    def linear(self,scoreConf,inputConf):
+        self.ops.append(as_pipeline.as_linear(scoreConf,inputConf))
+        return self
+
+    def scoring(self,teConf,outCon):
+        self.ops.append(as_pipeline.as_scoring(teConf,outCon))
+        return self
+
     def write_datasource(self,datasource,mode):
         self.ops.append(as_pipeline.as_datasource_write(datasource,mode))
         return self
@@ -182,11 +234,11 @@ class as_pipeline(object):
 
     def run(self):
         if len(self.ops) > 0 and isinstance(self.ops[0],as_pipeline.as_datasource_read):
-            if isinstance(self.ops[-1],as_pipeline.as_datasource_write):
+            if isinstance(self.ops[-1],as_pipeline.as_datasource_write) or isinstance(self.ops[len(self.ops) - 1],model_node):
                 self.server.run(self)
                 return None
             else:
-                dsName = "foobaz" # FIXME should use a UUID
+                dsName = "foobaz_uuid" # FIXME should use a UUID
                 self.server.create_writable_datasource(dsName)
                 self.write_datasource(dsName,"overwrite")
                 self.server.run(self)
@@ -204,19 +256,19 @@ class analytic_server(object):
     def run(self,pipeline,project="public"):
         self.server.lock_project("public")
         try:
-            self.server.run_asl("public",str(pipeline))    
+            self.server.run_asl("public",str(pipeline))
         finally:
             self.server.commit_project("public")
 
     def remove_datasource(self,name):
         self.server.remove_datasource(name)
-             
+
     def create_writable_datasource(self,name,project="public"):
         self.server.create_writable_datasource(name,project)
 
     def get_datasource_records(self,name,start,count):
         return self.server.get_datasource_records(name,start,count)
-           
+
     def get_datasource_datamodel(self,name):
         return self.server.get_datasource_datamodel(name)
 
@@ -224,5 +276,5 @@ class analytic_server(object):
         return as_pipeline(self)
 
 
-    
-        
+
+
