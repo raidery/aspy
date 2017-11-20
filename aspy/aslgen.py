@@ -83,6 +83,8 @@ class as_resultset(object):
     def toPandas(self):
         import pandas as pd
         self.reset()
+        headers = {}
+        data = {}
         rows = [row for row in self]
         headers = rows[0]
         data = rows[1:]

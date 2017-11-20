@@ -32,12 +32,17 @@ modeling = ass.create_pipeline().read_datasource("DRUG1N").select("lambda x: x.A
 """
 
 
-"""
 scoreConf = {"isOutputInputData": True}
 scoreInputConf = [{"export": True,"name": "InputPMML","uri": "/pmml.con"}]
 scoring = ass.create_pipeline().read_datasource("DRUG1N").scoring(scoreConf,scoreInputConf).run()
-"""
 
+
+"""
 buildConf = {"InputFieldList": ["Sex","BP","Cholesterol"],"TargetField": "Age"}
 inputConf = [{"export": True,"name": "PMML","uri": "/pmml.con"},{"export": True,"name": "StatXML","uri": "/stat.con"}]
 modeling = ass.create_pipeline().read_datasource("DRUG1N").select("lambda x: x.Age>10").linear(buildConf,inputConf).run()
+
+"""
+
+df = scoring.toPandas()
+print(df)
