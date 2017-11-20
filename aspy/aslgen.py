@@ -12,6 +12,7 @@ import xml.dom.minidom
 import StringIO
 import re
 import logging
+import uuid
 
 # locate analyic_server from the build/checker library
 # sys.path.append(sys.path.append(os.path.join(os.path.dirname(__file__),"../../../../build/checker/lib")))
@@ -238,7 +239,7 @@ class as_pipeline(object):
                 self.server.run(self)
                 return None
             else:
-                dsName = "foobaz_uuid" # FIXME should use a UUID
+                dsName = "ds-" + str(uuid.uuid4()) # FIXME should use a UUID
                 self.server.create_writable_datasource(dsName)
                 self.write_datasource(dsName,"overwrite")
                 self.server.run(self)

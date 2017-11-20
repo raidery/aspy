@@ -8,8 +8,8 @@ ass = analytic_server("rhe701.fyre.ibm.com",9080,False,"admin","test")
 
 
 
-rs = a.create_pipeline().read_datasource("DRUG1N").select("lambda x: x.Age>10").derive("ratio","lambda x:x.Na/x.K").run()
-#rs = a.create_pipeline().read_datasource("DRUG1N").tree_chaid(conf_tree,conf_outcon).run()
+rs = ass.create_pipeline().read_datasource("DRUG1N").select("lambda x: x.Age>10").derive("ratio","lambda x:x.Na/x.K").run()
+#rs = ass.create_pipeline().read_datasource("DRUG1N").tree_chaid(conf_tree,conf_outcon).run()
 
 
 logger.info("Execute : %s" % "rhe701.fyre.ibm.com")
@@ -40,4 +40,4 @@ scoring = ass.create_pipeline().read_datasource("DRUG1N").scoring(scoreConf,scor
 
 buildConf = {"InputFieldList": ["Sex","BP","Cholesterol"],"TargetField": "Age"}
 inputConf = [{"export": True,"name": "PMML","uri": "/pmml.con"},{"export": True,"name": "StatXML","uri": "/stat.con"}]
-modeling = as.create_pipeline().read_datasource("DRUG1N").select("lambda x: x.Age>10").linear(buildConf,inputConf).run()
+modeling = ass.create_pipeline().read_datasource("DRUG1N").select("lambda x: x.Age>10").linear(buildConf,inputConf).run()
