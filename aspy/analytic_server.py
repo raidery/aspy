@@ -16,7 +16,7 @@ import pwd
 import sys
 #from exceptions import PostCheckException
 
-
+'''
 if False:
     logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -33,6 +33,7 @@ formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
 console.setFormatter(formatter)
 logging.getLogger('').addHandler(console)
 
+'''
 
 logger = logging.getLogger('aspy')
 
