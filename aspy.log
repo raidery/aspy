@@ -1,0 +1,37 @@
+Mon, 20 Nov 2017 13:58:05 analytic_server.py[line:87] INFO Logging in to analytic server tenant 'None' as user 'admin'
+Mon, 20 Nov 2017 13:58:05 analytic_server.py[line:58] INFO Execute : /analyticserver/security/login
+Mon, 20 Nov 2017 13:58:06 analytic_server.py[line:74] INFO ["EXECUTE","MANAGE.ANY.DATASOURCE","MANAGE.ROLE","MANAGE.CONSUMER","MANAGE.EXTERNAL.FILESYSTEM","MANAGE.ANY.PROJECT","MANAGE.PERMISSION","MANAGE.ANY.CONSUMER"]
+Mon, 20 Nov 2017 13:58:06 analytic_server.py[line:94] INFO Login succeeded, AS version is : 3.1.1.0.31
+Mon, 20 Nov 2017 13:58:06 analytic_server.py[line:170] INFO Creating writable datasource: 'ds-e91486c0-7304-47c4-a791-f0a480b6afe6' in project 'public
+Mon, 20 Nov 2017 13:58:06 analytic_server.py[line:58] INFO Execute : /analyticserver/ds/ds-e91486c0-7304-47c4-a791-f0a480b6afe6
+Mon, 20 Nov 2017 13:58:06 analytic_server.py[line:74] INFO 
+Mon, 20 Nov 2017 13:58:06 analytic_server.py[line:123] INFO Locking project: 'public'
+Mon, 20 Nov 2017 13:58:06 analytic_server.py[line:58] INFO Execute : /analyticserver/project/lock/public
+Mon, 20 Nov 2017 13:58:07 analytic_server.py[line:74] INFO {"versionNumber": "130"}
+Mon, 20 Nov 2017 13:58:07 analytic_server.py[line:199] INFO Running ASL: 'read({"dataSource": "DRUG1N"}) -> filterRecords(_,ctx => x =>  x.Age>30) -> deriveField(_,ctx => x => ("ratio",x.Na/x.K)) -> aggregate({"output": [{"function": "key", "input": "BP"}, {"function": "count"}, {"function": "mean", "input": "ratio", "outName": "mean_ratio"}]}) -> write({"dataSource": "ds-e91486c0-7304-47c4-a791-f0a480b6afe6", "mode": "overwrite"})' in project 'public
+Mon, 20 Nov 2017 13:58:07 analytic_server.py[line:58] INFO Execute : /analyticserver/analytic/asl/execution
+Mon, 20 Nov 2017 13:58:07 analytic_server.py[line:74] INFO {"status": {"code": "AEQAE1600I","executionId": "15fd801563e-16af5956ec2b0e60"}}
+Mon, 20 Nov 2017 13:58:07 analytic_server.py[line:220] INFO Getting status for job: '15fd801563e-16af5956ec2b0e60'
+Mon, 20 Nov 2017 13:58:07 analytic_server.py[line:58] INFO Execute : /analyticserver/analytic/execution/status/15fd801563e-16af5956ec2b0e60
+Mon, 20 Nov 2017 13:58:07 analytic_server.py[line:74] INFO {"status": {"code": "AEQAE1600I","executionId": "15fd801563e-16af5956ec2b0e60","startTime": 1511157487259,"endTime": 1511157487259,"project": "public","results": [],"percent": 0.0}}
+Mon, 20 Nov 2017 13:58:07 analytic_server.py[line:211] INFO Waiting for job, current status = AEQAE1600I
+Mon, 20 Nov 2017 13:58:08 analytic_server.py[line:220] INFO Getting status for job: '15fd801563e-16af5956ec2b0e60'
+Mon, 20 Nov 2017 13:58:08 analytic_server.py[line:58] INFO Execute : /analyticserver/analytic/execution/status/15fd801563e-16af5956ec2b0e60
+Mon, 20 Nov 2017 13:58:08 analytic_server.py[line:74] INFO {"status": {"code": "AEQAE1600I","executionId": "15fd801563e-16af5956ec2b0e60","startTime": 1511157487259,"endTime": 1511157487259,"project": "public","results": [],"percent": 0.9900000095367432}}
+Mon, 20 Nov 2017 13:58:08 analytic_server.py[line:211] INFO Waiting for job, current status = AEQAE1600I
+Mon, 20 Nov 2017 13:58:09 analytic_server.py[line:220] INFO Getting status for job: '15fd801563e-16af5956ec2b0e60'
+Mon, 20 Nov 2017 13:58:09 analytic_server.py[line:58] INFO Execute : /analyticserver/analytic/execution/status/15fd801563e-16af5956ec2b0e60
+Mon, 20 Nov 2017 13:58:09 analytic_server.py[line:74] INFO {"status": {"code": "AEQAE1601I","executionId": "15fd801563e-16af5956ec2b0e60","startTime": 1511157487259,"endTime": 1511157488919,"project": "public","results": [{"uri": "ds:\/\/ds-e91486c0-7304-47c4-a791-f0a480b6afe6\/data\/data_15fd801563e-16af5956ec2b0e60_0.csv"},{"uri": "ds:\/\/ds-e91486c0-7304-47c4-a791-f0a480b6afe6\/data\/data_dm0.xml"}],"percent": 1.0}}
+Mon, 20 Nov 2017 13:58:09 analytic_server.py[line:128] INFO Committing project: 'public'
+Mon, 20 Nov 2017 13:58:09 analytic_server.py[line:58] INFO Execute : /analyticserver/project/commit/public
+Mon, 20 Nov 2017 13:58:10 analytic_server.py[line:74] INFO {"versionNumber": "131"}
+Mon, 20 Nov 2017 13:58:10 analytic_server.py[line:58] INFO Execute : /analyticserver/ds/datamodel/ds-e91486c0-7304-47c4-a791-f0a480b6afe6
+Mon, 20 Nov 2017 13:58:10 analytic_server.py[line:74] INFO <?xml version="1.0" ?><DataModel><Fields count="3"><Field name="BP" measure="discrete" storage="string" role="input"></Field><Field name="Record_Count" measure="continuous" storage="integer" role="input"></Field><Field name="mean_ratio" measure="continuous" storage="real" role="input"></Field></Fields></DataModel>
+Mon, 20 Nov 2017 13:58:10 analytic_server.py[line:58] INFO Execute : /analyticserver/ds/records/ds-e91486c0-7304-47c4-a791-f0a480b6afe6
+Mon, 20 Nov 2017 13:58:11 analytic_server.py[line:74] INFO [["LOW",56,16.989521616806176],["HIGH",55,15.68008381792773],["NORMAL",41,14.137524664093023]]
+Mon, 20 Nov 2017 13:58:11 analytic_server.py[line:58] INFO Execute : /analyticserver/ds/records/ds-e91486c0-7304-47c4-a791-f0a480b6afe6
+Mon, 20 Nov 2017 13:58:11 analytic_server.py[line:74] INFO []
+Mon, 20 Nov 2017 13:58:12 analytic_server.py[line:58] INFO Execute : /analyticserver/ds/records/ds-e91486c0-7304-47c4-a791-f0a480b6afe6
+Mon, 20 Nov 2017 13:58:13 analytic_server.py[line:74] INFO [["LOW",56,16.989521616806176],["HIGH",55,15.68008381792773],["NORMAL",41,14.137524664093023]]
+Mon, 20 Nov 2017 13:58:13 analytic_server.py[line:58] INFO Execute : /analyticserver/ds/records/ds-e91486c0-7304-47c4-a791-f0a480b6afe6
+Mon, 20 Nov 2017 13:58:14 analytic_server.py[line:74] INFO []
